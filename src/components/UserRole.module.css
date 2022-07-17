@@ -1,0 +1,18 @@
+.userRole {
+	text-transform: uppercase;
+	font-size: 0.75rem;
+	padding: 0.25rem 0.75rem;
+	border-radius: 0.5rem;
+}
+
+.teacher {
+	background-color: #00d8ff;
+}
+
+.student {
+	background-color: lightgreen;
+}
+
+.other {
+	background-color: lightgray;
+}
