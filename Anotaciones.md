@@ -25,3 +25,4 @@
 18. Utilizar custom hooks para agrupar lógica y crear abstracción
 
 19. SI ALGO TIENE QUE CAMBIAR, ES UN ESTADO.
+20. Debido al Virtual DOM, un componente solo puede pasar sus props de padres a hijos.

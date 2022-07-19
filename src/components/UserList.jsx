@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import UserListFilters from './UserListFilters.jsx';
 import UserListRows from './UserListRows.jsx';
+import { UserContext } from '../lib/context/UserContext.js';
 import style from './UserList.module.css';
 
 const UserList = ({ initialUsers }) => {
@@ -21,7 +22,9 @@ const UserList = ({ initialUsers }) => {
 				sortBy={sortBy}
 				{...setFiltersFunctions} // Recuperamos handlers desde el hook
 			/>
-			<UserListRows users={filteredUsers} toggleUserActive={toggleUserActive} />
+			<UserContext.Provider value={{ toggleUserActive }}>
+				<UserListRows users={filteredUsers} />
+			</UserContext.Provider>
 		</div>
 	);
 };
