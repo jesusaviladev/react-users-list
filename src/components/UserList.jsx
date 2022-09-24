@@ -1,6 +1,5 @@
 import UserListFilters from './UserListFilters.jsx';
 import UserListRows from './UserListRows.jsx';
-import { UserContext } from '../lib/context/UserContext.js';
 import useFilters from '../hooks/useFilters.js';
 import useUsers from '../hooks/useUsers.js';
 import style from './UserList.module.css';
@@ -11,14 +10,13 @@ const UserList = ({ initialUsers }) => {
 
 	// Inicializamos el estado desde el hook y proporcionamso un medio para
 	// actualizarlo
-	const { users, toggleUserActive } = useUsers(initialUsers);
+	const { users } = useUsers(initialUsers);
 
 	let filteredUsers = filterActiveUsers(users, onlyActive);
 	filteredUsers = filterUsersByName(filteredUsers, search);
 	filteredUsers = sortUsers(filteredUsers, sortBy);
 
 	return (
-		// Creamos un contexto para pasar la acción a los nietos
 		<div className={style.list}>
 			<h1>Listado de Usuarios</h1>
 			<UserListFilters
@@ -27,9 +25,7 @@ const UserList = ({ initialUsers }) => {
 				sortBy={sortBy}
 				{...setFiltersFunctions} // Pasamos los handlers desde el hook
 			/>
-			<UserContext.Provider value={{ toggleUserActive }}>
-				<UserListRows users={filteredUsers} />
-			</UserContext.Provider>
+			<UserListRows users={filteredUsers} />
 		</div>
 	);
 };

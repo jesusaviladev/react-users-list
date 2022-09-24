@@ -1,7 +1,21 @@
+.active,
+.inactive {
+	display: flex;
+	align-items: center;
+	font-size: var(--text-sm);
+}
+
 .active {
-	color: green;
+	color: var(--color-green);
 }
 
 .inactive {
-	color: red;
+	color: var(--color-red);
+}
+
+.statusIcon {
+	width: 1rem;
+	height: 1rem;
+
+	margin-right: 0.5rem;
 }

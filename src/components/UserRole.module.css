@@ -1,18 +1,18 @@
 .userRole {
 	text-transform: uppercase;
-	font-size: 0.75rem;
-	padding: 0.25rem 0.75rem;
-	border-radius: 0.5rem;
+	font-size: var(--text-sm);
+	padding: 0.25rem 0.5rem;
+	border-radius: var(--radius-sm);
 }
 
 .teacher {
-	background-color: #00d8ff;
+	background-color: var(--color-blue);
 }
 
 .student {
-	background-color: lightgreen;
+	background-color: var(--color-purple);
 }
 
 .other {
-	background-color: lightgray;
+	background-color: var(--color-lightgray);
 }

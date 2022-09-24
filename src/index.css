@@ -1,6 +1,7 @@
 @import './styles/reset.css';
 @import './styles/fonts.css';
+@import './styles/themes.css';
 
-body {
-	font-family: 'Poppins', sans-serif;
+#root {
+	min-height: 100vh;
 }

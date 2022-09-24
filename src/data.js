@@ -1,19 +1,19 @@
 export const USERS = [
 	{
-		id: 0,
+		username: 'pablo',
 		name: 'Pablo Castellanos',
 		role: 'teacher',
 		active: true,
 	},
 	{
-		id: 1,
+		username: 'jose',
 		name: 'José Miguel Fernández',
 		role: 'other',
 		active: true,
 	},
 	{
-		id: 2,
-		name: 'Javier López',
+		username: 'jesus',
+		name: 'Jesús Ávila',
 		active: false,
 	},
 ];

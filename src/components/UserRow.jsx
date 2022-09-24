@@ -1,17 +1,13 @@
-import { useContext } from 'react';
-import { UserContext } from '../lib/context/UserContext.js';
 import UserStatus from './UserStatus.jsx';
 import UserRole from './UserRole.jsx';
+import UserDisplay from './UserDisplay.jsx';
 import style from './UserRow.module.css';
 
-const UserRow = ({ id, name, active, role }) => {
-	// Recuperamos funcionalidad desdee el contexto
-	const { toggleUserActive } = useContext(UserContext);
-
+const UserRow = ({ username, name, active, role }) => {
 	return (
-		<div className={style.user}>
+		<div className={style.wrapper}>
 			<div className={style.name}>
-				<span>{name}</span>
+				<UserDisplay username={username} name={name} />
 			</div>
 			<div className={style.status}>
 				<UserStatus active={active} />
@@ -19,11 +15,7 @@ const UserRow = ({ id, name, active, role }) => {
 			<div className={style.role}>
 				<UserRole role={role} />
 			</div>
-			<div className={style.action}>
-				<button onClick={() => toggleUserActive(id)}>
-					{active ? 'Desactivar' : 'Activar'}
-				</button>
-			</div>
+			<div className={style.action}></div>
 		</div>
 	);
 };
