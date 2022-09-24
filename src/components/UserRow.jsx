@@ -5,6 +5,7 @@ import UserRole from './UserRole.jsx';
 import style from './UserRow.module.css';
 
 const UserRow = ({ id, name, active, role }) => {
+	// Recuperamos funcionalidad desdee el contexto
 	const { toggleUserActive } = useContext(UserContext);
 
 	return (

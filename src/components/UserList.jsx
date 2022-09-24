@@ -1,12 +1,16 @@
-import { useState } from 'react';
 import UserListFilters from './UserListFilters.jsx';
 import UserListRows from './UserListRows.jsx';
 import { UserContext } from '../lib/context/UserContext.js';
+import useFilters from '../hooks/useFilters.js';
+import useUsers from '../hooks/useUsers.js';
 import style from './UserList.module.css';
 
 const UserList = ({ initialUsers }) => {
+	// Recuperamos funcionalidad de filtros desde el hook
 	const { search, onlyActive, sortBy, ...setFiltersFunctions } = useFilters();
 
+	// Inicializamos el estado desde el hook y proporcionamso un medio para
+	// actualizarlo
 	const { users, toggleUserActive } = useUsers(initialUsers);
 
 	let filteredUsers = filterActiveUsers(users, onlyActive);
@@ -14,13 +18,14 @@ const UserList = ({ initialUsers }) => {
 	filteredUsers = sortUsers(filteredUsers, sortBy);
 
 	return (
+		// Creamos un contexto para pasar la acción a los nietos
 		<div className={style.list}>
 			<h1>Listado de Usuarios</h1>
 			<UserListFilters
 				search={search}
 				onlyActive={onlyActive}
 				sortBy={sortBy}
-				{...setFiltersFunctions} // Recuperamos handlers desde el hook
+				{...setFiltersFunctions} // Pasamos los handlers desde el hook
 			/>
 			<UserContext.Provider value={{ toggleUserActive }}>
 				<UserListRows users={filteredUsers} />
@@ -58,48 +63,6 @@ const sortUsers = (users, sortBy) => {
 		default:
 			return sorteredUsers;
 	}
-};
-/* CUSTOM HOOK */
-const useFilters = () => {
-	const [filters, setFilters] = useState({
-		search: '',
-		onlyActive: false,
-		sortBy: 0,
-	});
-
-	const setSearch = (search) => setFilters({ ...filters, search });
-
-	const setOnlyActive = (onlyActive) => setFilters({ ...filters, onlyActive });
-
-	const setSortBy = (sortBy) => setFilters({ ...filters, sortBy });
-
-	return {
-		...filters,
-		setSearch,
-		setOnlyActive,
-		setSortBy,
-	};
-};
-
-const useUsers = (initialUsers) => {
-	const [users, setUsers] = useState(initialUsers);
-
-	const toggleUserActive = (userId) => {
-		const newUsers = [...users];
-
-		const userIndex = newUsers.findIndex((user) => user.id === userId);
-
-		if (userIndex === -1) return;
-
-		newUsers[userIndex].active = !newUsers[userIndex].active;
-
-		setUsers(newUsers);
-	};
-
-	return {
-		users,
-		toggleUserActive,
-	};
 };
 
 export default UserList;
