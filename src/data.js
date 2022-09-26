@@ -2,7 +2,7 @@ export const USERS = [
 	{
 		username: 'pablo',
 		name: 'Pablo Castellanos',
-		role: 'teacher',
+		role: 'other',
 		active: true,
 	},
 	{

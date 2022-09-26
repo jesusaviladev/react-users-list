@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { SORT_OPTIONS } from '../../constants/sortOptions.js';
 
 /* CUSTOM HOOK */
 const useFilters = () => {
 	const [filters, setFilters] = useState({
 		search: '',
 		onlyActive: false,
-		sortBy: 0,
+		sortBy: SORT_OPTIONS.DEFAULT,
 	});
 
 	const setSearch = (search) => setFilters({ ...filters, search });
@@ -16,9 +17,16 @@ const useFilters = () => {
 		solo usuarios activos entonces volver a setear el orden por defecto
 		Funciona porque el formulario es controlado
 		*/
-		if (onlyActive && filters.sortBy === 3)
-			setFilters({ ...filters, sortBy: 0, onlyActive });
-		else setFilters({ ...filters, onlyActive });
+
+		const newSortBy =
+			onlyActive && filters.sortBy === SORT_OPTIONS.ACTIVE
+				? SORT_OPTIONS.DEFAULT
+				: filters.sortBy;
+
+		/* Refactor: Si el filtro activo está activo, entonces el valor del filtro
+		es el orden por defecto, si no entonces devuelve el valor de sortBy */
+
+		setFilters({ ...filters, sortBy: newSortBy, onlyActive });
 	};
 
 	const setSortBy = (sortBy) => setFilters({ ...filters, sortBy });
