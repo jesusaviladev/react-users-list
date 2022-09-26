@@ -6,4 +6,6 @@
 .username {
 	color: var(--color-gray);
 	font-size: var(--text-sm);
+
+	margin-top: 0.25rem;
 }

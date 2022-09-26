@@ -1,4 +1,7 @@
 import style from './UserListFilters.module.css';
+import InputSearch from './forms/InputSearch.jsx';
+import InputCheckbox from './forms/InputCheckbox.jsx';
+import SelectInput from './forms/SelectInput.jsx';
 
 const UserListFilters = ({
 	search,
@@ -9,40 +12,39 @@ const UserListFilters = ({
 	setSortBy,
 }) => {
 	return (
-		<form
-			onSubmit={(e) => {
-				e.preventDefault();
-			}}
-			className={style.form}
-		>
-			<input
-				type="text"
-				placeholder="Buscar por nombre..."
-				autoComplete="off"
-				value={search}
-				onChange={(e) => {
-					setSearch(e.target.value);
-				}}
-			/>
-			<div className={style.active}>
-				<input
-					type="checkbox"
-					id="active"
-					checked={onlyActive}
-					onChange={(e) => setOnlyActive(!onlyActive)}
+		<div className={style.form}>
+			<div className={style.row}>
+				<InputSearch // Componente al que le pasamos las props destructuradas
+					placeholder="Buscar..."
+					autoComplete="off"
+					value={search}
+					onChange={(e) => {
+						setSearch(e.target.value);
+					}}
 				/>
-				<label htmlFor="active">Solo Activos</label>
+				<SelectInput
+					value={sortBy}
+					onChange={(e) => {
+						setSortBy(Number(e.target.value));
+					}}
+				>
+					<option value={0}>Por defecto</option>
+					<option value={1}>Por nombre</option>
+					<option value={2}>Por rol</option>
+					{!onlyActive && <option value={3}>Por activo</option>}
+				</SelectInput>
 			</div>
-			<select
-				value={sortBy}
-				onChange={(e) => {
-					setSortBy(Number(e.target.value));
-				}}
-			>
-				<option value={0}>Por defecto</option>
-				<option value={1}>Por nombre</option>
-			</select>
-		</form>
+			<div className={style.row}>
+				<div className={style.active}>
+					<InputCheckbox
+						className={style.checkbox}
+						checked={onlyActive}
+						onChange={(e) => setOnlyActive(!onlyActive)}
+					/>
+					<span>Mostrar sólo activos</span>
+				</div>
+			</div>
+		</div>
 	);
 };
 

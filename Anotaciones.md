@@ -28,9 +28,8 @@
 20. Debido al Virtual DOM, un componente solo puede pasar sus props de padres a hijos.
 21. Al usar un contexto, todos los componentes que lo consuman se renderizarán si el valor del contexto cambia (si dependen de un estado, por ejemplo).
 22. Para evitar renderizar innecesariamente componentes dentro de un contexto complejo es recomendable dividir el contexto en diferentes nodos que envuelvan los componentes que tienen acceso.
-23. La prioridad máxima para la experiencia de usuario en una aplicación de React es
-    ofrecer una respuesta visual inmediata.
-24. Los side effects son tareas que se producen como consecuencia de otra acción, se ejecutan siempre después de la acción principal, su orden es irrelevante y tienen implicaciones externas a la función que los defines (Ej: el document title, location.href, etc).
+23. La prioridad máxima para la experiencia de usuario en una aplicación de React es ofrecer una respuesta visual inmediata.
+24. Los side effects son tareas que se producen como consecuencia de otra acción, se ejecutan siempre después de la acción principal, su orden es irrelevante y tienen implicaciones externas a la función que los define (Ej: el document title, location.href, etc).
 25. Dentro del hook useEffect se pueden incluir tantos side effects como sea necesario, el hook useEffect se ejecuta siempre después de terminar el render y tiene acceso al nuevo valor del estado.
 26. useEffect tiene como parámetro un arreglo de dependencias que permiten controlar el momento en el que se ejecuta.
 27. El arreglo de dependencias de useEffect toma el valor inicial y lo compara con el anterior para determinar si ha cambiado dicho valor y ejecutar el callback

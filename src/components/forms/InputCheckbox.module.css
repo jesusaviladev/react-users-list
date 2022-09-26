@@ -1,0 +1,40 @@
+.label {
+	position: relative;
+	width: 2rem;
+	height: 2rem;
+
+	border-radius: var(--radius-sm);
+	box-shadow: var(--shadow-sm);
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	cursor: pointer;
+}
+
+.label:focus-within {
+	box-shadow: var(--shadow-md);
+}
+
+.input {
+	opacity: 1;
+	position: absolute;
+	top: -100vh;
+}
+
+/* 
+
+	selector de hermano 
+
+*/
+
+.input:not(:checked) + .check {
+	display: none;
+}
+
+.check {
+	user-select: none;
+	width: 1.5rem;
+	height: 1.5rem;
+}

@@ -8,7 +8,7 @@ export const USERS = [
 	{
 		username: 'jose',
 		name: 'José Miguel Fernández',
-		role: 'other',
+		role: 'teacher',
 		active: true,
 	},
 	{
