@@ -55,5 +55,14 @@ export const paginateUsers = (users, page, itemsPerPage) => {
 
 	const endIndex = startIndex + itemsPerPage;
 
-	return users.slice(startIndex, endIndex);
+	// Calculamos el total de paginas
+
+	const totalPages = Math.ceil(users.length / itemsPerPage);
+
+	const paginatedUsers = users.slice(startIndex, endIndex);
+
+	return {
+		paginatedUsers,
+		totalPages,
+	};
 };

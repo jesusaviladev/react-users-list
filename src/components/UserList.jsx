@@ -2,10 +2,10 @@ import UserListFilters from './UserListFilters.jsx';
 import UserListPagination from './UsersListPagination.jsx';
 import UserListRows from './UserListRows.jsx';
 import useFilters from '../lib/hooks/useFilters.js';
-import getUsers from '../lib/hooks/useUsers.js';
+import useUsers from '../lib/hooks/useUsers.js';
 import style from './UserList.module.css';
 
-const UserList = ({ initialUsers }) => {
+const UserList = () => {
 	// Recuperamos funcionalidad de filtros y paginación desde el hook
 	const {
 		filters,
@@ -16,7 +16,8 @@ const UserList = ({ initialUsers }) => {
 		setItemsPerPage,
 	} = useFilters();
 
-	const { users, totalPages } = getUsers(initialUsers, filters);
+	// Recuperamos los usuarios
+	const { users, totalPages, error, isLoading } = useUsers(filters);
 
 	return (
 		<div className={style.list}>
@@ -30,7 +31,7 @@ const UserList = ({ initialUsers }) => {
 				setOnlyActive={setOnlyActive}
 				setSortBy={setSortBy}
 			/>
-			<UserListRows users={users} />
+			<UserListRows users={users} error={error} isLoading={isLoading} />
 			<UserListPagination
 				page={filters.page}
 				itemsPerPage={filters.itemsPerPage}
