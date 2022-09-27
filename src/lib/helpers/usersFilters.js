@@ -48,3 +48,12 @@ export const sortUsers = (users, sortBy) => {
 			return sorteredUsers;
 	}
 };
+
+export const paginateUsers = (users, page, itemsPerPage) => {
+	// Metodo silce
+	const startIndex = (page - 1) * itemsPerPage;
+
+	const endIndex = startIndex + itemsPerPage;
+
+	return users.slice(startIndex, endIndex);
+};

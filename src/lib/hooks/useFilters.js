@@ -7,9 +7,11 @@ const useFilters = () => {
 		search: '',
 		onlyActive: false,
 		sortBy: SORT_OPTIONS.DEFAULT,
+		page: 1,
+		itemsPerPage: 2,
 	});
 
-	const setSearch = (search) => setFilters({ ...filters, search });
+	const setSearch = (search) => setFilters({ ...filters, search, page: 1 });
 
 	const setOnlyActive = (onlyActive) => {
 		/* Requerimiento funcional: 
@@ -26,16 +28,23 @@ const useFilters = () => {
 		/* Refactor: Si el filtro activo está activo, entonces el valor del filtro
 		es el orden por defecto, si no entonces devuelve el valor de sortBy */
 
-		setFilters({ ...filters, sortBy: newSortBy, onlyActive });
+		setFilters({ ...filters, sortBy: newSortBy, onlyActive, page: 1 });
 	};
 
 	const setSortBy = (sortBy) => setFilters({ ...filters, sortBy });
 
+	const setPage = (newPage) => setFilters({ ...filters, page: newPage });
+
+	const setItemsPerPage = (newItemsPerPage) =>
+		setFilters({ ...filters, itemsPerPage: newItemsPerPage });
+
 	return {
-		...filters,
+		filters,
 		setSearch,
 		setOnlyActive,
 		setSortBy,
+		setPage,
+		setItemsPerPage,
 	};
 };
 
