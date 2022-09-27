@@ -16,7 +16,7 @@ const UsersListPagination = ({
 				value={itemsPerPage}
 				onChange={(e) => {
 					setItemsPerPage(Number(e.target.value));
-					// setPage(1); // ??? TODO
+					// setPage(1); // ??? TODO: dudas...
 				}}
 			>
 				<option value={1}>1</option>

@@ -11,6 +11,8 @@ const useFilters = () => {
 		itemsPerPage: 2,
 	});
 
+	// Siempre que filtro por busqueda o solo activo, vuelvo a la pagina 1
+
 	const setSearch = (search) => setFilters({ ...filters, search, page: 1 });
 
 	const setOnlyActive = (onlyActive) => {
