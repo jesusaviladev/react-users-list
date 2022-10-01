@@ -1,80 +1,63 @@
+import { useState } from 'react';
 import style from './UserCreateForm.module.css';
 import InputText from '../forms/InputText.jsx';
 import InputTextAsync from '../forms/InputTextAsync.jsx';
 import SelectInput from '../forms/SelectInput.jsx';
 import InputCheckbox from '../forms/InputCheckbox.jsx';
 import Button from '../buttons/Button.jsx';
-import IconButton from '../buttons/IconButton.jsx';
-import CrossIcon from '../icons/CrossIcon.jsx';
 import { USER_ROLES } from '../../constants/userRoles.js';
 import useCreateForm from '../../lib/hooks/useCreateForm.js';
-import { useState } from 'react';
+import { createUser } from '../../lib/services/users.services.js';
 
-const UserCreateForm = ({ onClose }) => {
+const UserCreateForm = ({ onSuccess }) => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const { name, username, setName, setUsername } = useCreateForm();
-
-	const isDisabled =
-		!name.value ||
-		name.error ||
-		!username.value ||
-		username.error ||
-		username.loading ||
-		isSubmitting;
+	const { name, username, setName, setUsername, isFormValid } = useCreateForm();
 
 	return (
-		<div className={style.wrapper}>
-			<IconButton
-				icon={CrossIcon}
-				filled
-				className={style.close}
-				onClick={onClose}
-			/>
-			<form
-				onSubmit={(ev) =>
-					handleSubmit(ev, name, username, setIsSubmitting, onClose)
-				}
-			>
-				<div className={style.row}>
-					<InputText
-						className={style.input}
-						label="Nombre"
-						placeholder="John Doe..."
-						value={name.value}
-						onChange={(e) => setName(e.target.value)}
-						error={name.error}
-					/>
-					<InputTextAsync
-						className={style.input}
-						label="Username"
-						placeholder="johndoe..."
-						value={username.value}
-						onChange={(e) => setUsername(e.target.value)}
-						loading={username.loading}
-						error={username.error}
-						success={username.value && !username.loading && !username.error}
-					/>
+		<form
+			onSubmit={(ev) =>
+				handleSubmit(ev, name, username, setIsSubmitting, onSuccess)
+			}
+		>
+			<div className={style.row}>
+				<InputText
+					className={style.input}
+					label="Nombre"
+					placeholder="John Doe..."
+					value={name.value}
+					onChange={(e) => setName(e.target.value)}
+					error={name.error}
+				/>
+				<InputTextAsync
+					className={style.input}
+					label="Username"
+					placeholder="johndoe..."
+					value={username.value}
+					onChange={(e) => setUsername(e.target.value)}
+					loading={username.loading}
+					error={username.error}
+					success={username.value && !username.loading && !username.error}
+				/>
+			</div>
+			<div className={style.row}>
+				<SelectInput name="role">
+					<option value={USER_ROLES.TEACHER}>Profesor</option>
+					<option value={USER_ROLES.STUDENT}>Alumno</option>
+					<option value={USER_ROLES.OTHER}>Otro</option>
+				</SelectInput>
+				<div className={style.active}>
+					<InputCheckbox name="active" />
+					<span>¿Activo?</span>
 				</div>
-				<div className={style.row}>
-					<SelectInput name="role">
-						<option value={USER_ROLES.TEACHER}>Profesor</option>
-						<option value={USER_ROLES.STUDENT}>Alumno</option>
-						<option value={USER_ROLES.OTHER}>Otro</option>
-					</SelectInput>
-					<div className={style.active}>
-						<InputCheckbox name="active" />
-						<span>¿Activo?</span>
-					</div>
-					<Button type="submit" disabled={isDisabled}>
-						{isSubmitting ? 'Enviando...' : 'Crear usuario'}
-					</Button>
-				</div>
-			</form>
-		</div>
+				<Button type="submit" disabled={isSubmitting || isFormValid}>
+					{isSubmitting ? 'Enviando...' : 'Crear usuario'}
+				</Button>
+			</div>
+		</form>
 	);
 };
 
-const handleSubmit = async (e, name, username, setIsSubmitting, onClose) => {
+const handleSubmit = async (e, name, username, setIsSubmitting, onSuccess) => {
 	e.preventDefault();
 
 	setIsSubmitting(true);
@@ -87,19 +70,12 @@ const handleSubmit = async (e, name, username, setIsSubmitting, onClose) => {
 		active: e.target.active.checked,
 	};
 
-	const res = await fetch('http://localhost:4000/users/', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(user),
-	});
+	const success = await createUser(user);
 
-	if (res.ok) {
+	if (success) {
 		// TODO : Actualizar los usuarios
-		onClose();
+		onSuccess();
 	} else {
-		console.log('error');
 		setIsSubmitting(false);
 	}
 };

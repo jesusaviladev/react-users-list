@@ -1,38 +1,14 @@
 import { useState, useEffect } from 'react';
+import { findUserByUsername } from '../services/users.services.js';
 import { validateName, validateUsername } from '../helpers/usersValidations.js';
 
-const validateUsernameIsAvailable = async (
-	username,
-	setUsernameError,
-	signal
-) => {
-	let validationError; // error que se devuelve
+// EL ORDEN DE PRESENTACION DE LOS HOOKS IMPORTA!!!
 
-	try {
-		const res = await fetch(
-			`http://localhost:4000/users?username=${username}`,
-			{
-				signal,
-			}
-		);
+/* 
+Primero el hook, setters del estado, efectos
+despues funciones auxiliares
 
-		if (res.ok) {
-			const data = await res.json();
-
-			// Error
-			if (data.length) validationError = 'Nombre de usuario ya existe';
-		} else {
-			// Error en la petición
-
-			validationError = 'Error al validar';
-		}
-	} catch (error) {
-		if (error.name === 'AbortError') return;
-		validationError = 'Error al validar';
-	}
-
-	setUsernameError(validationError);
-};
+*/
 
 const useCreateForm = () => {
 	// Estado para el formulario
@@ -82,32 +58,53 @@ const useCreateForm = () => {
 	// Depende de la variable loading
 
 	useEffect(() => {
-		if (formValues.username.loading) {
-			// Evitar memory leaks, abortando la llamada fetch
+		if (!formValues.username.loading) return;
+		// Evitar memory leaks, abortando la llamada fetch
 
-			const controller = new AbortController();
+		const controller = new AbortController();
 
-			const timeoutId = setTimeout(() => {
-				// Timeout para el debounce
-				validateUsernameIsAvailable(
-					formValues.username.value,
-					setUsernameError,
-					controller.signal
-				);
-			}, 500);
+		const timeoutId = setTimeout(() => {
+			// Timeout para el debounce
+			validateUsernameIsAvailable(
+				formValues.username.value,
+				setUsernameError,
+				controller.signal
+			);
+		}, 500);
 
-			return () => {
-				controller.abort();
-				clearTimeout(timeoutId);
-			};
-		}
+		return () => {
+			controller.abort();
+			clearTimeout(timeoutId);
+		};
 	}, [formValues.username.loading, formValues.username.value]);
+
+	const isFormValid =
+		!formValues.name.value ||
+		formValues.name.error ||
+		!formValues.username.value ||
+		formValues.username.error ||
+		formValues.username.loading;
 
 	return {
 		...formValues,
 		setName,
 		setUsername,
+		isFormValid,
 	};
+};
+
+const validateUsernameIsAvailable = async (
+	username,
+	setUsernameError,
+	signal
+) => {
+	const { user, error, aborted } = await findUserByUsername(username, signal);
+
+	if (aborted) return;
+
+	if (error) return setUsernameError('Error al validar');
+
+	setUsernameError(user ? 'Nombre de usuario ya existe' : undefined);
 };
 
 export default useCreateForm;
