@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { USER_FORMS } from '../constants/userForms.js';
 import Button from './buttons/Button.jsx';
 import UserCreateForm from './user-forms/UserCreateForm.jsx';
+import UserEditForm from './user-forms/UserEditForm.jsx';
+import UserDeleteForm from './user-forms/UserDeleteForm.jsx';
 import UserFormLayout from './user-forms/UserFormLayout.jsx';
 import UserListFilters from './UserListFilters.jsx';
 import UserListPagination from './UsersListPagination.jsx';
@@ -39,7 +41,14 @@ const UserList = () => {
 
 	// Lógica para renderizar los distintos formularios
 
-	const { currentForm, setCreateForm, setFiltersForm } = useForms();
+	const {
+		currentForm,
+		currentUser,
+		setCreateForm,
+		setFiltersForm,
+		setEditForm,
+		setDeleteForm,
+	} = useForms();
 
 	const onSuccess = () => {
 		reloadUsers();
@@ -60,13 +69,27 @@ const UserList = () => {
 				/>
 			) : (
 				<UserFormLayout onClose={setFiltersForm}>
-					<UserCreateForm onSuccess={onSuccess} />
+					{currentForm === USER_FORMS.CREATE && (
+						<UserCreateForm onSuccess={onSuccess} />
+					)}
+					{currentForm === USER_FORMS.EDIT && (
+						<UserEditForm onSuccess={onSuccess} user={currentUser} />
+					)}
+					{currentForm === USER_FORMS.DELETE && (
+						<UserDeleteForm
+							onSuccess={onSuccess}
+							onCancel={setFiltersForm}
+							user={currentUser}
+						/>
+					)}
 				</UserFormLayout>
 			)}
 			<UserListRows
 				users={paginatedUsers}
 				error={usersError}
 				isLoading={usersLoading}
+				setEditForm={setEditForm}
+				setDeleteForm={setDeleteForm}
 			/>
 			<UserListPagination
 				{...pagination}
@@ -104,17 +127,19 @@ const getUsersToDisplay = (
 };
 
 const useForms = () => {
-	const [currentForm, setCurrentForm] = useState(USER_FORMS.FILTERS);
+	const [currentForm, setCurrentForm] = useState({ form: USER_FORMS.FILTERS });
 
 	// Importante: recordar crear setters
 
-	const setFiltersForm = () => setCurrentForm(USER_FORMS.FILTERS);
-	const setCreateForm = () => setCurrentForm(USER_FORMS.CREATE);
-	const setEditForm = () => setCurrentForm(USER_FORMS.EDIT);
-	const setDeleteForm = () => setCurrentForm(USER_FORMS.DELETE);
+	const setFiltersForm = () => setCurrentForm({ form: USER_FORMS.FILTERS });
+	const setCreateForm = () => setCurrentForm({ form: USER_FORMS.CREATE });
+	const setEditForm = (user) => setCurrentForm({ form: USER_FORMS.EDIT, user });
+	const setDeleteForm = (user) =>
+		setCurrentForm({ form: USER_FORMS.DELETE, user });
 
 	return {
-		currentForm,
+		currentForm: currentForm.form,
+		currentUser: currentForm.user,
 		setFiltersForm,
 		setCreateForm,
 		setEditForm,

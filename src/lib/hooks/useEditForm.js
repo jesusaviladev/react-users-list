@@ -10,19 +10,9 @@ despues funciones auxiliares
 
 */
 
-const useCreateForm = () => {
+const useEditForm = (user) => {
 	// Estado para el formulario
-	const [formValues, setFormValues] = useState({
-		name: {
-			value: '',
-			error: undefined,
-		},
-		username: {
-			value: '',
-			loading: false, // variable para determinar si está cargando
-			error: undefined,
-		},
-	});
+	const [formValues, setFormValues] = useState(() => getInitialState(user));
 
 	// Setters del estado
 
@@ -37,11 +27,26 @@ const useCreateForm = () => {
 
 	const setUsername = (newUsername) => {
 		const error = validateUsername(newUsername);
+		const isInitial = newUsername === user.username;
 
 		setFormValues({
 			...formValues,
-			username: { value: newUsername, loading: !error, error },
+			username: { value: newUsername, loading: !error && !isInitial, error },
 		}); // loading depende de si no está cargando
+	};
+
+	const setRole = (newRole) => {
+		setFormValues({
+			...formValues,
+			role: newRole,
+		});
+	};
+
+	const setActive = (newActive) => {
+		setFormValues({
+			...formValues,
+			active: newActive,
+		});
 	};
 
 	const setUsernameError = (error) =>
@@ -53,6 +58,12 @@ const useCreateForm = () => {
 				loading: false,
 			},
 		}));
+
+	// Cada vez que cambie el usuario, reiniciamos el estado
+
+	useEffect(() => {
+		setFormValues(getInitialState(user));
+	}, [user]);
 
 	// UseEffect que llama a la API si hay un nombre de usuario válido
 	// Depende de la variable loading
@@ -79,9 +90,8 @@ const useCreateForm = () => {
 	}, [formValues.username.loading, formValues.username.value]);
 
 	const isFormInvalid =
-		!formValues.name.value ||
+		areInitialValues(formValues, user) ||
 		formValues.name.error ||
-		!formValues.username.value ||
 		formValues.username.error ||
 		formValues.username.loading;
 
@@ -89,9 +99,33 @@ const useCreateForm = () => {
 		...formValues,
 		setName,
 		setUsername,
+		setRole,
+		setActive,
 		isFormInvalid,
 	};
 };
+
+const getInitialState = (user) => {
+	return {
+		name: {
+			value: user.name,
+			error: undefined,
+		},
+		username: {
+			value: user.username,
+			loading: false, // variable para determinar si está cargando
+			error: undefined,
+		},
+		role: user.role,
+		active: user.active,
+	};
+};
+
+const areInitialValues = (formValues, user) =>
+	formValues.name.value === user.name &&
+	formValues.username.value === user.username &&
+	formValues.role === user.role &&
+	formValues.active === user.active;
 
 const validateUsernameIsAvailable = async (
 	username,
@@ -107,4 +141,4 @@ const validateUsernameIsAvailable = async (
 	setUsernameError(user ? 'Nombre de usuario ya existe' : undefined);
 };
 
-export default useCreateForm;
+export default useEditForm;
