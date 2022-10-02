@@ -1,4 +1,4 @@
-import UserList from './components/UserList.jsx';
+import UserList from './components/users-list/UserList.jsx';
 
 const App = function () {
 	/* Anotación: crear componentes cuando se tenga la necesidad 

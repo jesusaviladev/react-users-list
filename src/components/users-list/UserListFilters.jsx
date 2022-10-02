@@ -1,12 +1,12 @@
 import style from './UserListFilters.module.css';
 import { useContext } from 'react';
-import { UserFormsContext } from '../lib/context/UserFormsContext.js';
-import InputSearch from './forms/InputSearch.jsx';
-import InputCheckbox from './forms/InputCheckbox.jsx';
-import SelectInput from './forms/SelectInput.jsx';
-import Button from './buttons/Button.jsx';
-import { SORT_OPTIONS } from '../constants/sortOptions.js';
-import { USER_FORMS } from '../constants/userForms.js';
+import { UserFormsContext } from '../../lib/context/UserFormsContext.js';
+import InputSearch from '../forms/InputSearch.jsx';
+import InputCheckbox from '../forms/InputCheckbox.jsx';
+import SelectInput from '../forms/SelectInput.jsx';
+import Button from '../buttons/Button.jsx';
+import { SORT_OPTIONS } from '../../constants/sortOptions.js';
+import { USER_FORMS } from '../../constants/userForms.js';
 
 const UserListFilters = ({
 	search,

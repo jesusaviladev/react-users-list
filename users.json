@@ -2,9 +2,9 @@
   "users": [
     {
       "id": "c3ce080a-88ee-4b1c-b88e-e7070b1365e6",
-      "username": "bfarge0",
+      "username": "bfarge02",
       "name": "Bird Farge",
-      "active": false,
+      "active": true,
       "role": "student"
     },
     {
@@ -180,10 +180,10 @@
       "name": "José Miguel Fernández",
       "username": "josemi22",
       "role": "teacher",
-      "active": false
+      "active": true
     },
     {
-      "id": "0d86ca74-7613-4a58-a5d6-959bacbc0410",
+      "id": "93b978eb-c7ac-46cf-ad05-a6d3f2dc1fb0",
       "name": "Jesús Ávila",
       "username": "jesusavila98",
       "role": "student",

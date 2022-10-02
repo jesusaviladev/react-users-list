@@ -1,6 +1,6 @@
-import SelectInput from './forms/SelectInput.jsx';
+import SelectInput from '../forms/SelectInput.jsx';
 import style from './UsersListPagination.module.css';
-import PageSelector from './forms/PageSelector.jsx';
+import PageSelector from '../forms/PageSelector.jsx';
 
 const UsersListPagination = ({
 	page,

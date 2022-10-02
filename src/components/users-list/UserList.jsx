@@ -1,12 +1,12 @@
-import UserFormContainer from './user-forms/UserFormContainer.jsx';
+import UserFormContainer from '../user-forms/UserFormContainer.jsx';
 import UserListFilters from './UserListFilters.jsx';
 import UserListPagination from './UsersListPagination.jsx';
 import UserListRows from './UserListRows.jsx';
-import useFilters from '../lib/hooks/useFilters.js';
-import useUsers from '../lib/hooks/useUsers.js';
+import useFilters from '../../lib/hooks/useFilters.js';
+import useUsers from '../../lib/hooks/useUsers.js';
 import style from './UserList.module.css';
-import { getUsersToDisplay } from '../lib/helpers/usersFilters.js';
-import UserFormsProvider from './providers/UserFormsProvider.jsx';
+import { getUsersToDisplay } from '../../lib/helpers/usersFilters.js';
+import UserFormsProvider from '../providers/UserFormsProvider.jsx';
 
 const UserList = () => {
 	// Recuperamos funcionalidad de filtros y paginación desde el hook

@@ -1,5 +1,5 @@
 import style from './UserRole.module.css';
-import { USER_ROLES } from '../constants/userRoles.js';
+import { USER_ROLES } from '../../constants/userRoles.js';
 
 /* Creamos objeto diccionario para el nombre del rol y su estilo css */
 const ROLE_STYLES = {
