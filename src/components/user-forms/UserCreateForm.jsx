@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import style from './UserCreateForm.module.css';
 import InputText from '../forms/InputText.jsx';
 import InputTextAsync from '../forms/InputTextAsync.jsx';
@@ -7,9 +7,12 @@ import InputCheckbox from '../forms/InputCheckbox.jsx';
 import Button from '../buttons/Button.jsx';
 import { USER_ROLES } from '../../constants/userRoles.js';
 import useCreateForm from '../../lib/hooks/useCreateForm.js';
+import { UserFormsContext } from '../../lib/context/UserFormsContext.js';
 import { createUser } from '../../lib/services/users.services.js';
 
-const UserCreateForm = ({ onSuccess }) => {
+const UserCreateForm = () => {
+	const { onSuccess } = useContext(UserFormsContext);
+
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const { name, username, setName, setUsername, isFormInvalid } =
 		useCreateForm();

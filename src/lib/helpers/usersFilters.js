@@ -2,7 +2,7 @@ import { SORT_OPTIONS } from '../../constants/sortOptions';
 import { USER_ROLES } from '../../constants/userRoles';
 
 /* FUNCIONES PURAS */
-export const filterUsersByName = (users, search) => {
+const filterUsersByName = (users, search) => {
 	if (!search) return [...users];
 
 	const lowerCasedSearch = search.toLowerCase(); // Pasamos el valor a minuscula
@@ -13,13 +13,13 @@ export const filterUsersByName = (users, search) => {
 	);
 };
 
-export const filterActiveUsers = (users, active) => {
+const filterActiveUsers = (users, active) => {
 	if (!active) return [...users];
 	// Filtramos segun el valor de busqueda
 	return users.filter((user) => user.active);
 };
 
-export const sortUsers = (users, sortBy) => {
+const sortUsers = (users, sortBy) => {
 	// Usar tablas de verdad para el sort
 
 	const sorteredUsers = [...users]; // Spread operator para crear nuevo obj
@@ -49,7 +49,7 @@ export const sortUsers = (users, sortBy) => {
 	}
 };
 
-export const paginateUsers = (users, page, itemsPerPage) => {
+const paginateUsers = (users, page, itemsPerPage) => {
 	// Metodo silce
 	const startIndex = (page - 1) * itemsPerPage;
 
@@ -60,6 +60,32 @@ export const paginateUsers = (users, page, itemsPerPage) => {
 	const totalPages = Math.ceil(users.length / itemsPerPage);
 
 	const paginatedUsers = users.slice(startIndex, endIndex);
+
+	return {
+		paginatedUsers,
+		totalPages,
+	};
+};
+
+export const getUsersToDisplay = (
+	users,
+	{ search, onlyActive, sortBy },
+	{ page, itemsPerPage }
+) => {
+	// filtramos los usuarios
+
+	let filteredUsers = filterActiveUsers(users, onlyActive);
+	filteredUsers = filterUsersByName(filteredUsers, search);
+	filteredUsers = sortUsers(filteredUsers, sortBy);
+
+	// Hacemos la paginación y retornamos los usuarios ya paginados,
+	// y el total de paginas
+
+	const { paginatedUsers, totalPages } = paginateUsers(
+		filteredUsers,
+		page,
+		itemsPerPage
+	);
 
 	return {
 		paginatedUsers,

@@ -171,43 +171,22 @@
     {
       "id": "2e7032d9-e381-47c1-b798-169634d9e006",
       "name": "Pablo Castellanos",
-      "username": "pabloc982",
+      "username": "pabloc82",
       "role": "student",
       "active": true
     },
     {
       "id": "c326b97e-3f77-4970-a9e7-75f1c4b719f0",
       "name": "José Miguel Fernández",
-      "username": "josemf22",
+      "username": "josemi22",
       "role": "teacher",
-      "active": true
+      "active": false
     },
     {
-      "id": "b41803da-9dd4-4bf1-853c-59e77705a00c",
+      "id": "0d86ca74-7613-4a58-a5d6-959bacbc0410",
       "name": "Jesús Ávila",
       "username": "jesusavila98",
       "role": "student",
-      "active": true
-    },
-    {
-      "id": "4944522a-81bc-4822-879e-73bc2fe1f6e3",
-      "name": "Jesús Ávila",
-      "username": "jesusavila98",
-      "role": "student",
-      "active": true
-    },
-    {
-      "id": "0aafdb6a-f31b-4413-9eea-c49b1ba8bb95",
-      "name": "johndoe",
-      "username": "johndoe98",
-      "role": "other",
-      "active": true
-    },
-    {
-      "id": "188c79bd-2200-4939-89e8-459fca168586",
-      "name": "johndoe",
-      "username": "johndoe98",
-      "role": "other",
       "active": true
     }
   ]
