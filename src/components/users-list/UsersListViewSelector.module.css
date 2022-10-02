@@ -1,0 +1,32 @@
+.wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+
+	margin-bottom: 2rem;
+}
+
+.button {
+	border: none;
+	outline: none;
+	background: none;
+
+	color: var(--color-lightgray);
+	cursor: pointer;
+}
+
+.button:disabled {
+	color: var(--color-black);
+	cursor: default;
+}
+
+.divider {
+	height: 2.5rem;
+	width: 2px;
+	background-color: var(--color-black);
+}
+
+.icon {
+	width: 2.5rem;
+	height: 2.5rem;
+}
