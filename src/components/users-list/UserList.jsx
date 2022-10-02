@@ -11,14 +11,14 @@ import UserFormsProvider from '../providers/UserFormsProvider.jsx';
 import { USER_VIEW_OPTIONS } from '../../constants/userViewOptions.js';
 
 const UserList = () => {
-	const [view, setView] = useState(USER_VIEW_OPTIONS.ROW);
+	const [showRowsFormat, setshowRowsFormat] = useState(USER_VIEW_OPTIONS.ROW);
 
 	// Recuperamos funcionalidad de filtros y paginación desde el hook
 	const { filters, filtersSetters, paginationSetters, resetFilters } =
 		useFilters();
 
 	// Recuperamos los usuarios
-	const { users, usersCount, usersError, usersLoading } = useUsers(filters);
+	const { users, totalUsers, usersError, usersLoading } = useUsers(filters);
 
 	return (
 		<div className={style.list}>
@@ -32,19 +32,22 @@ const UserList = () => {
 					{...filtersSetters}
 				/>
 				<UserFormContainer />
-				<UsersListViewSelector view={view} setView={setView} />
+				<UsersListViewSelector
+					showRowsFormat={showRowsFormat}
+					setshowRowsFormat={setshowRowsFormat}
+				/>
 				<UsersListRows
 					users={users}
 					error={usersError}
 					isLoading={usersLoading}
-					view={view}
+					view={showRowsFormat}
 				/>
 			</UserFormsProvider>
 			<UserListPagination
 				page={filters.page}
 				itemsPerPage={filters.itemsPerPage}
 				{...paginationSetters}
-				totalUsers={usersCount}
+				totalUsers={totalUsers}
 			/>
 		</div>
 	);

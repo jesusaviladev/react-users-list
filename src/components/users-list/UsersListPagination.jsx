@@ -1,6 +1,7 @@
 import SelectInput from '../forms/SelectInput.jsx';
 import style from './UsersListPagination.module.css';
 import PageSelector from '../forms/PageSelector.jsx';
+import { PAGINATION } from '../../constants/pagination.js';
 
 const UsersListPagination = ({
 	page,
@@ -20,9 +21,11 @@ const UsersListPagination = ({
 					setItemsPerPage(Number(e.target.value));
 				}}
 			>
-				<option value={4}>4</option>
-				<option value={6}>6</option>
-				<option value={8}>8</option>
+				{PAGINATION.ITEMS_PER_PAGE_VALUES.map((value, index) => (
+					<option key={index} value={value}>
+						{value}
+					</option>
+				))}
 			</SelectInput>
 			<p>Elementos por página</p>
 		</div>
