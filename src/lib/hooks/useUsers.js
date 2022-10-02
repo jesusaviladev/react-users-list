@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { findAllUsers } from '../services/users.services.js';
 
-const useUsers = () => {
+const useUsers = (filters) => {
 	// Inicializamos el estado desde el hook y proporcionamos
 	// un medio para actualizarlo
 
@@ -9,47 +9,45 @@ const useUsers = () => {
 
 	const [users, setUsers] = useState({
 		data: [],
+		count: 0, // contador de usuarios totales
 		error: false,
 		loading: true,
 	});
 
 	// Exponemos metodos para actualizar el estado
 
-	const setData = (newData) =>
-		setUsers({ data: newData, error: false, loading: false });
+	const setData = (newData, newCount) =>
+		setUsers({ data: newData, count: newCount, error: false, loading: false });
 
-	const setError = () => setUsers({ data: [], error: true, loading: false });
-
-	const reloadUsers = () => setUsers({ data: [], error: false, loading: true });
+	const setError = () =>
+		setUsers({ data: [], count: 0, error: true, loading: false });
 
 	// recuperamos usuarios de la api
 
 	useEffect(() => {
-		if (!users.loading) return;
-
 		// Evitar memory leaks, abortando la llamada fetch
 
 		const controller = new AbortController();
 
-		loadUsers(setData, setError, controller.signal);
+		loadUsers(setData, setError, controller.signal, filters);
 
 		return () => controller.abort();
-	}, [users.loading]);
+	}, [filters]);
 
 	return {
 		users: users.data,
+		usersCount: users.count,
 		usersError: users.error,
 		usersLoading: users.loading,
-		reloadUsers,
 	};
 };
 
-const loadUsers = async (setData, setError, signal) => {
-	const { users, aborted } = await findAllUsers(signal);
+const loadUsers = async (setData, setError, signal, filters) => {
+	const { users, aborted, count } = await findAllUsers(signal, filters);
 
 	if (aborted) return;
 
-	if (users) setData(users);
+	if (users) setData(users, count);
 	else setError();
 };
 

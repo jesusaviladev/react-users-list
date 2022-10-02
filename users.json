@@ -172,7 +172,7 @@
       "id": "2e7032d9-e381-47c1-b798-169634d9e006",
       "name": "Pablo Castellanos",
       "username": "pabloc82",
-      "role": "student",
+      "role": "teacher",
       "active": true
     },
     {
@@ -183,9 +183,9 @@
       "active": true
     },
     {
-      "id": "93b978eb-c7ac-46cf-ad05-a6d3f2dc1fb0",
+      "id": "5155ceb1-b453-47e7-a940-57c4fc4b7945",
       "name": "Jesús Ávila",
-      "username": "jesusavila98",
+      "username": "jesusaviladev",
       "role": "student",
       "active": true
     }
