@@ -14,8 +14,7 @@ const UserList = () => {
 	const [showRowsFormat, setshowRowsFormat] = useState(USER_VIEW_OPTIONS.ROW);
 
 	// Recuperamos funcionalidad de filtros y paginación desde el hook
-	const { filters, filtersSetters, paginationSetters, resetFilters } =
-		useFilters();
+	const { filters, dispatchFilters } = useFilters();
 
 	// Recuperamos los usuarios
 	const { users, totalUsers, usersError, usersLoading } = useUsers(filters);
@@ -23,13 +22,15 @@ const UserList = () => {
 	return (
 		<div className={style.list}>
 			<h1 className={style.title}>Listado de Usuarios</h1>
-			<UserFormsProvider resetFilters={resetFilters}>
+			<UserFormsProvider
+				resetFilters={() => dispatchFilters({ type: 'reset_filters' })}
+			>
 				<UserListFilters
 					search={filters.search}
 					onlyActive={filters.onlyActive}
 					sortBy={filters.sortBy}
 					// Pasamos los handlers desde el hook
-					{...filtersSetters}
+					dispatchFilters={dispatchFilters}
 				/>
 				<UserFormContainer />
 				<UsersListViewSelector
@@ -46,7 +47,7 @@ const UserList = () => {
 			<UserListPagination
 				page={filters.page}
 				itemsPerPage={filters.itemsPerPage}
-				{...paginationSetters}
+				dispatchFilters={dispatchFilters}
 				totalUsers={totalUsers}
 			/>
 		</div>

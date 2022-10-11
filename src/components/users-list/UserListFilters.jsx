@@ -8,14 +8,7 @@ import Button from '../buttons/Button.jsx';
 import { SORT_OPTIONS } from '../../constants/sortOptions.js';
 import { USER_FORMS } from '../../constants/userForms.js';
 
-const UserListFilters = ({
-	search,
-	setSearch,
-	onlyActive,
-	setOnlyActive,
-	sortBy,
-	setSortBy,
-}) => {
+const UserListFilters = ({ search, onlyActive, sortBy, dispatchFilters }) => {
 	const { currentForm, setCreateForm } = useContext(UserFormsContext);
 
 	if (currentForm !== USER_FORMS.FILTERS) return null;
@@ -27,13 +20,19 @@ const UserListFilters = ({
 					autoComplete="off"
 					value={search}
 					onChange={(e) => {
-						setSearch(e.target.value);
+						dispatchFilters({
+							type: 'search_changed',
+							value: e.target.value,
+						});
 					}}
 				/>
 				<SelectInput
 					value={sortBy}
 					onChange={(e) => {
-						setSortBy(Number(e.target.value));
+						dispatchFilters({
+							type: 'sort_by_changed',
+							value: Number(e.target.value),
+						});
 					}}
 				>
 					<option value={SORT_OPTIONS.DEFAULT}>Por defecto</option>
@@ -49,7 +48,12 @@ const UserListFilters = ({
 					<InputCheckbox
 						className={style.checkbox}
 						checked={onlyActive}
-						onChange={(e) => setOnlyActive(!onlyActive)}
+						onChange={(e) =>
+							dispatchFilters({
+								type: 'only_active_changed',
+								value: e.target.checked,
+							})
+						}
 					/>
 					<span>Mostrar sólo activos</span>
 				</div>

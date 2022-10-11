@@ -6,9 +6,8 @@ import { PAGINATION } from '../../constants/pagination.js';
 const UsersListPagination = ({
 	page,
 	itemsPerPage,
-	setPage,
-	setItemsPerPage,
 	totalUsers,
+	dispatchFilters,
 }) => (
 	<div className={style.wrapper}>
 		<div className={style.itemsPerPage}>
@@ -18,7 +17,10 @@ const UsersListPagination = ({
 				onChange={(e) => {
 					/* Anotación: NO tiene sentido actualizar la pagina aqui
 						debe ser en el hook... */
-					setItemsPerPage(Number(e.target.value));
+					dispatchFilters({
+						type: 'items_per_page_changed',
+						value: Number(e.target.value),
+					});
 				}}
 			>
 				{PAGINATION.ITEMS_PER_PAGE_VALUES.map((value, index) => (
@@ -31,7 +33,9 @@ const UsersListPagination = ({
 		</div>
 		<PageSelector
 			page={page}
-			setPage={setPage}
+			setPage={(newPage) =>
+				dispatchFilters({ type: 'page_changed', value: newPage })
+			}
 			totalPages={Math.ceil(totalUsers / itemsPerPage)}
 		/>
 	</div>
