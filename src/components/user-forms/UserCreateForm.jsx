@@ -9,6 +9,7 @@ import { USER_ROLES } from '../../constants/userRoles.js';
 import useCreateForm from '../../lib/hooks/useCreateForm.js';
 import { UserFormsContext } from '../../lib/context/UserFormsContext.js';
 import { createUser } from '../../lib/services/users.services.js';
+import { CREATE_FORM_ACTIONS } from '../../constants/createFormActions';
 
 const UserCreateForm = () => {
 	const { onSuccess } = useContext(UserFormsContext);
@@ -29,7 +30,10 @@ const UserCreateForm = () => {
 					placeholder="John Doe..."
 					value={name.value}
 					onChange={(e) =>
-						dispatchFormValues({ type: 'name_changed', value: e.target.value })
+						dispatchFormValues({
+							type: CREATE_FORM_ACTIONS.NAME,
+							value: e.target.value,
+						})
 					}
 					error={name.error}
 				/>
@@ -40,7 +44,7 @@ const UserCreateForm = () => {
 					value={username.value}
 					onChange={(e) =>
 						dispatchFormValues({
-							type: 'username_changed',
+							type: CREATE_FORM_ACTIONS.USERNAME,
 							value: e.target.value,
 						})
 					}

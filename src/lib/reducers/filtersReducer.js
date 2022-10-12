@@ -1,8 +1,8 @@
-import { useReducer } from 'react';
-import { SORT_OPTIONS } from '../../constants/sortOptions.js';
-import { PAGINATION } from '../../constants/pagination.js';
+import { FILTER_ACTIONS } from '../../constants/filtersActions';
+import { PAGINATION } from '../../constants/pagination';
+import { SORT_OPTIONS } from '../../constants/sortOptions';
 
-const INITIAL_STATE = {
+export const FILTERS_INITIAL_STATE = {
 	search: '',
 	onlyActive: false,
 	sortBy: SORT_OPTIONS.DEFAULT,
@@ -10,13 +10,13 @@ const INITIAL_STATE = {
 	itemsPerPage: PAGINATION.DEFAULT_PAGE_SIZE,
 };
 
-const filtersReducer = (state, action) => {
+export const filtersReducer = (state, action) => {
 	switch (action.type) {
-		case 'search_changed':
+		case FILTER_ACTIONS.SEARCH:
 			// Siempre que filtro por busqueda o solo activo, vuelvo a la pagina 1
 			return { ...state, search: action.value, page: PAGINATION.DEFAULT_PAGE };
 
-		case 'only_active_changed':
+		case FILTER_ACTIONS.ONLY_ACTIVE:
 			/* Requerimiento funcional: 
 		Si esta activo el filtro por estado de usuario, al activar la opcion de¡
 		solo usuarios activos entonces volver a setear el orden por defecto
@@ -36,13 +36,13 @@ const filtersReducer = (state, action) => {
 				page: PAGINATION.DEFAULT_PAGE,
 			};
 
-		case 'sort_by_changed':
+		case FILTER_ACTIONS.SORT_BY:
 			return { ...state, sortBy: action.value, page: PAGINATION.DEFAULT_PAGE };
 
-		case 'page_changed':
+		case FILTER_ACTIONS.PAGE:
 			return { ...state, page: action.value };
 
-		case 'items_per_page_changed':
+		case FILTER_ACTIONS.ITEMS_PER_PAGE:
 			/* Al setear el numero de items por pagina es necesario reiniciar la
 			paginacion a 1 (página por defecto) */
 
@@ -52,22 +52,10 @@ const filtersReducer = (state, action) => {
 				page: PAGINATION.DEFAULT_PAGE,
 			};
 
-		case 'reset_filters':
-			return { ...INITIAL_STATE };
+		case FILTER_ACTIONS.RESET:
+			return { ...FILTERS_INITIAL_STATE };
 
 		default:
 			throw new Error('Invalid action type');
 	}
 };
-
-/* CUSTOM HOOK */
-const useFilters = () => {
-	const [filters, dispatchFilters] = useReducer(filtersReducer, INITIAL_STATE);
-
-	return {
-		filters,
-		dispatchFilters,
-	};
-};
-
-export default useFilters;

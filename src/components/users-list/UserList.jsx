@@ -1,20 +1,27 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import UserFormContainer from '../user-forms/UserFormContainer.jsx';
 import UserListFilters from './UserListFilters.jsx';
 import UserListPagination from './UsersListPagination.jsx';
 import UsersListViewSelector from './UsersListViewSelector.jsx';
 import UsersListRows from './UsersListRows.jsx';
-import useFilters from '../../lib/hooks/useFilters.js';
 import useUsers from '../../lib/hooks/useUsers.js';
 import style from './UserList.module.css';
 import UserFormsProvider from '../providers/UserFormsProvider.jsx';
 import { USER_VIEW_OPTIONS } from '../../constants/userViewOptions.js';
+import { FILTER_ACTIONS } from '../../constants/filtersActions.js';
+import {
+	filtersReducer,
+	FILTERS_INITIAL_STATE,
+} from '../../lib/reducers/filtersReducer.js';
 
 const UserList = () => {
 	const [showRowsFormat, setshowRowsFormat] = useState(USER_VIEW_OPTIONS.ROW);
 
 	// Recuperamos funcionalidad de filtros y paginación desde el hook
-	const { filters, dispatchFilters } = useFilters();
+	const [filters, dispatchFilters] = useReducer(
+		filtersReducer,
+		FILTERS_INITIAL_STATE
+	);
 
 	// Recuperamos los usuarios
 	const { users, totalUsers, usersError, usersLoading } = useUsers(filters);
@@ -23,7 +30,7 @@ const UserList = () => {
 		<div className={style.list}>
 			<h1 className={style.title}>Listado de Usuarios</h1>
 			<UserFormsProvider
-				resetFilters={() => dispatchFilters({ type: 'reset_filters' })}
+				resetFilters={() => dispatchFilters({ type: FILTER_ACTIONS.RESET })}
 			>
 				<UserListFilters
 					search={filters.search}

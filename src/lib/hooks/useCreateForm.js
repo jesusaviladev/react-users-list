@@ -1,6 +1,10 @@
 import { useReducer, useEffect } from 'react';
 import { findUserByUsername } from '../services/users.services.js';
-import { validateName, validateUsername } from '../helpers/usersValidations.js';
+import { CREATE_FORM_ACTIONS } from '../../constants/createFormActions.js';
+import {
+	createFormReducer,
+	CREATE_FORM_INITIAL_STATE,
+} from '../reducers/createFormReducer.js';
 
 // EL ORDEN DE PRESENTACION DE LOS HOOKS IMPORTA!!!
 
@@ -12,17 +16,10 @@ despues funciones auxiliares
 
 const useCreateForm = () => {
 	// Estado para el formulario
-	const [formValues, dispatchFormValues] = useReducer(formValuesReducer, {
-		name: {
-			value: '',
-			error: undefined,
-		},
-		username: {
-			value: '',
-			loading: false, // variable para determinar si está cargando
-			error: undefined,
-		},
-	});
+	const [formValues, dispatchFormValues] = useReducer(
+		createFormReducer,
+		CREATE_FORM_INITIAL_STATE
+	);
 
 	// UseEffect que llama a la API si hay un nombre de usuario válido
 	// Depende de la variable loading
@@ -62,41 +59,6 @@ const useCreateForm = () => {
 	};
 };
 
-const formValuesReducer = (state, action) => {
-	switch (action.type) {
-		case 'name_changed': {
-			const error = validateName(action.value);
-
-			return {
-				...state,
-				name: { value: action.value, error },
-			};
-		}
-
-		case 'username_changed': {
-			const error = validateUsername(action.value);
-
-			return {
-				...state,
-				username: { value: action.value, loading: !error, error },
-			}; // loading depende de si no está cargando
-		}
-
-		case 'username_error_changed':
-			return {
-				...state,
-				username: {
-					value: state.username.value,
-					error: action.value,
-					loading: false,
-				},
-			};
-
-		default:
-			throw new Error('Invalid action type');
-	}
-};
-
 const validateUsernameIsAvailable = async (
 	username,
 	dispatchFormValues,
@@ -108,12 +70,12 @@ const validateUsernameIsAvailable = async (
 
 	if (error)
 		return dispatchFormValues({
-			type: 'username_error_changed',
+			type: CREATE_FORM_ACTIONS.USERNAME_ERROR,
 			value: 'Error al validar',
 		});
 
 	dispatchFormValues({
-		type: 'username_error_changed',
+		type: CREATE_FORM_ACTIONS.USERNAME_ERROR,
 		value: user ? 'Nombre de usuario ya existe' : undefined,
 	});
 };

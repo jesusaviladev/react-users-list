@@ -1,6 +1,10 @@
 import { useEffect, useReducer } from 'react';
 import { findUserByUsername } from '../services/users.services.js';
-import { validateName, validateUsername } from '../helpers/usersValidations.js';
+import { EDIT_FORM_ACTIONS } from '../../constants/editFormActions.js';
+import {
+	editFormReducer,
+	getEditFormInitialState,
+} from '../reducers/editFormReducer.js';
 
 // EL ORDEN DE PRESENTACION DE LOS HOOKS IMPORTA!!!
 
@@ -14,15 +18,18 @@ const useEditForm = (user) => {
 	// Estado para el formulario
 
 	const [formValues, dispatchFormValues] = useReducer(
-		formValuesReducer,
+		editFormReducer,
 		user,
-		getInitialState
+		getEditFormInitialState
 	);
 
 	// Cada vez que cambie el usuario, reiniciamos el estado
 
 	useEffect(() => {
-		dispatchFormValues({ type: 'replace', value: getInitialState(user) });
+		dispatchFormValues({
+			type: EDIT_FORM_ACTIONS.REPLACE,
+			value: getEditFormInitialState(user),
+		});
 	}, [user]);
 
 	// UseEffect que llama a la API si hay un nombre de usuario válido
@@ -62,76 +69,6 @@ const useEditForm = (user) => {
 	};
 };
 
-const formValuesReducer = (state, action) => {
-	switch (action.type) {
-		case 'name_changed': {
-			const error = validateName(action.value);
-
-			return {
-				...state,
-				name: { value: action.value, error },
-			};
-		}
-
-		case 'username_changed': {
-			const error = validateUsername(action.value);
-			const isInitial = action.value === action.currentUsername;
-
-			return {
-				...state,
-				username: {
-					value: action.value,
-					loading: !error && !isInitial,
-					error,
-				},
-			}; // loading depende de si no está cargando
-		}
-
-		case 'role_changed':
-			return {
-				...state,
-				role: action.value,
-			};
-
-		case 'active_changed':
-			return {
-				...state,
-				active: action.value,
-			};
-		case 'username_error_changed':
-			return {
-				...state,
-				username: {
-					value: state.username.value,
-					error: action.value,
-					loading: false,
-				},
-			};
-		case 'replace': {
-			return action.value;
-		}
-
-		default:
-			throw new Error('Invalid action type');
-	}
-};
-
-const getInitialState = (user) => {
-	return {
-		name: {
-			value: user.name,
-			error: undefined,
-		},
-		username: {
-			value: user.username,
-			loading: false, // variable para determinar si está cargando
-			error: undefined,
-		},
-		role: user.role,
-		active: user.active,
-	};
-};
-
 const areInitialValues = (formValues, user) =>
 	formValues.name.value === user.name &&
 	formValues.username.value === user.username &&
@@ -149,12 +86,12 @@ const validateUsernameIsAvailable = async (
 
 	if (error)
 		return dispatchFormValues({
-			type: 'username_error_changed',
+			type: EDIT_FORM_ACTIONS.USERNAME_ERROR,
 			value: 'Error al validar',
 		});
 
 	dispatchFormValues({
-		type: 'username_error_changed',
+		type: EDIT_FORM_ACTIONS.USERNAME_ERROR,
 		value: user ? 'Nombre de usuario ya existe' : undefined,
 	});
 };

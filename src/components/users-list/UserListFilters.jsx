@@ -7,6 +7,7 @@ import SelectInput from '../forms/SelectInput.jsx';
 import Button from '../buttons/Button.jsx';
 import { SORT_OPTIONS } from '../../constants/sortOptions.js';
 import { USER_FORMS } from '../../constants/userForms.js';
+import { FILTER_ACTIONS } from '../../constants/filtersActions';
 
 const UserListFilters = ({ search, onlyActive, sortBy, dispatchFilters }) => {
 	const { currentForm, setCreateForm } = useContext(UserFormsContext);
@@ -21,7 +22,7 @@ const UserListFilters = ({ search, onlyActive, sortBy, dispatchFilters }) => {
 					value={search}
 					onChange={(e) => {
 						dispatchFilters({
-							type: 'search_changed',
+							type: FILTER_ACTIONS.SEARCH,
 							value: e.target.value,
 						});
 					}}
@@ -30,7 +31,7 @@ const UserListFilters = ({ search, onlyActive, sortBy, dispatchFilters }) => {
 					value={sortBy}
 					onChange={(e) => {
 						dispatchFilters({
-							type: 'sort_by_changed',
+							type: FILTER_ACTIONS.SORT_BY,
 							value: Number(e.target.value),
 						});
 					}}
@@ -50,7 +51,7 @@ const UserListFilters = ({ search, onlyActive, sortBy, dispatchFilters }) => {
 						checked={onlyActive}
 						onChange={(e) =>
 							dispatchFilters({
-								type: 'only_active_changed',
+								type: FILTER_ACTIONS.ONLY_ACTIVE,
 								value: e.target.checked,
 							})
 						}

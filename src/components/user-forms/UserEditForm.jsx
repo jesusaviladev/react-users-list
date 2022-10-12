@@ -9,6 +9,7 @@ import { USER_ROLES } from '../../constants/userRoles.js';
 import { UserFormsContext } from '../../lib/context/UserFormsContext.js';
 import useEditForm from '../../lib/hooks/useEditForm.js';
 import { updateUser } from '../../lib/services/users.services.js';
+import { EDIT_FORM_ACTIONS } from '../../constants/editFormActions';
 
 const UserEditForm = () => {
 	const { currentUser, onSuccess } = useContext(UserFormsContext);
@@ -42,7 +43,10 @@ const UserEditForm = () => {
 					placeholder="John Doe..."
 					value={name.value}
 					onChange={(e) =>
-						dispatchFormValues({ type: 'name_changed', value: e.target.value })
+						dispatchFormValues({
+							type: EDIT_FORM_ACTIONS.NAME,
+							value: e.target.value,
+						})
 					}
 					error={name.error}
 				/>
@@ -53,7 +57,7 @@ const UserEditForm = () => {
 					value={username.value}
 					onChange={(e) =>
 						dispatchFormValues({
-							type: 'username_changed',
+							type: EDIT_FORM_ACTIONS.USERNAME,
 							value: e.target.value,
 							currentUsername: currentUser.username,
 						})
@@ -71,7 +75,10 @@ const UserEditForm = () => {
 				<SelectInput
 					value={role}
 					onChange={(e) =>
-						dispatchFormValues({ type: 'role_changed', value: e.target.value })
+						dispatchFormValues({
+							type: EDIT_FORM_ACTIONS.ROLE,
+							value: e.target.value,
+						})
 					}
 				>
 					<option value={USER_ROLES.TEACHER}>Profesor</option>
@@ -83,7 +90,7 @@ const UserEditForm = () => {
 						checked={active}
 						onChange={(e) =>
 							dispatchFormValues({
-								type: 'active_changed',
+								type: EDIT_FORM_ACTIONS.ACTIVE,
 								value: e.target.checked,
 							})
 						}
