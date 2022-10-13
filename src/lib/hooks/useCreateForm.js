@@ -1,10 +1,10 @@
 import { useReducer, useEffect } from 'react';
 import { findUserByUsername } from '../services/users.services.js';
-import { CREATE_FORM_ACTIONS } from '../../constants/createFormActions.js';
 import {
 	createFormReducer,
 	CREATE_FORM_INITIAL_STATE,
 } from '../reducers/createFormReducer.js';
+import { usernameErrorChanged } from '../actions/createFormActionsBuilders.js';
 
 // EL ORDEN DE PRESENTACION DE LOS HOOKS IMPORTA!!!
 
@@ -68,16 +68,12 @@ const validateUsernameIsAvailable = async (
 
 	if (aborted) return;
 
-	if (error)
-		return dispatchFormValues({
-			type: CREATE_FORM_ACTIONS.USERNAME_ERROR,
-			value: 'Error al validar',
-		});
+	let errorMessage;
 
-	dispatchFormValues({
-		type: CREATE_FORM_ACTIONS.USERNAME_ERROR,
-		value: user ? 'Nombre de usuario ya existe' : undefined,
-	});
+	if (error) errorMessage = 'Error al validar';
+	else if (user) errorMessage = 'Nombre de usuario ya existe';
+
+	dispatchFormValues(usernameErrorChanged(errorMessage));
 };
 
 export default useCreateForm;

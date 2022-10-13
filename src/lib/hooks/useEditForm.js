@@ -1,10 +1,13 @@
 import { useEffect, useReducer } from 'react';
 import { findUserByUsername } from '../services/users.services.js';
-import { EDIT_FORM_ACTIONS } from '../../constants/editFormActions.js';
 import {
 	editFormReducer,
 	getEditFormInitialState,
 } from '../reducers/editFormReducer.js';
+import {
+	usernameErrorChanged,
+	replace,
+} from '../actions/editFormActionsBuilders.js';
 
 // EL ORDEN DE PRESENTACION DE LOS HOOKS IMPORTA!!!
 
@@ -26,10 +29,7 @@ const useEditForm = (user) => {
 	// Cada vez que cambie el usuario, reiniciamos el estado
 
 	useEffect(() => {
-		dispatchFormValues({
-			type: EDIT_FORM_ACTIONS.REPLACE,
-			value: getEditFormInitialState(user),
-		});
+		dispatchFormValues(replace(getEditFormInitialState(user)));
 	}, [user]);
 
 	// UseEffect que llama a la API si hay un nombre de usuario válido
@@ -84,16 +84,12 @@ const validateUsernameIsAvailable = async (
 
 	if (aborted) return;
 
-	if (error)
-		return dispatchFormValues({
-			type: EDIT_FORM_ACTIONS.USERNAME_ERROR,
-			value: 'Error al validar',
-		});
+	let errorMessage;
 
-	dispatchFormValues({
-		type: EDIT_FORM_ACTIONS.USERNAME_ERROR,
-		value: user ? 'Nombre de usuario ya existe' : undefined,
-	});
+	if (error) errorMessage = 'Error al validar';
+	else if (user) errorMessage = 'Nombre de usuario ya existe';
+
+	dispatchFormValues(usernameErrorChanged(errorMessage));
 };
 
 export default useEditForm;

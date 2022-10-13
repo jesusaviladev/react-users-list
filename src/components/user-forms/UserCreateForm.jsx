@@ -9,7 +9,10 @@ import { USER_ROLES } from '../../constants/userRoles.js';
 import useCreateForm from '../../lib/hooks/useCreateForm.js';
 import { UserFormsContext } from '../../lib/context/UserFormsContext.js';
 import { createUser } from '../../lib/services/users.services.js';
-import { CREATE_FORM_ACTIONS } from '../../constants/createFormActions';
+import {
+	nameChanged,
+	usernameChanged,
+} from '../../lib/actions/createFormActionsBuilders';
 
 const UserCreateForm = () => {
 	const { onSuccess } = useContext(UserFormsContext);
@@ -29,12 +32,7 @@ const UserCreateForm = () => {
 					label="Nombre"
 					placeholder="John Doe..."
 					value={name.value}
-					onChange={(e) =>
-						dispatchFormValues({
-							type: CREATE_FORM_ACTIONS.NAME,
-							value: e.target.value,
-						})
-					}
+					onChange={(e) => dispatchFormValues(nameChanged(e.target.value))}
 					error={name.error}
 				/>
 				<InputTextAsync
@@ -42,12 +40,7 @@ const UserCreateForm = () => {
 					label="Username"
 					placeholder="johndoe..."
 					value={username.value}
-					onChange={(e) =>
-						dispatchFormValues({
-							type: CREATE_FORM_ACTIONS.USERNAME,
-							value: e.target.value,
-						})
-					}
+					onChange={(e) => dispatchFormValues(usernameChanged(e.target.value))}
 					loading={username.loading}
 					error={username.error}
 					success={username.value && !username.loading && !username.error}

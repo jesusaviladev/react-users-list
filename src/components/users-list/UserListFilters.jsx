@@ -7,7 +7,11 @@ import SelectInput from '../forms/SelectInput.jsx';
 import Button from '../buttons/Button.jsx';
 import { SORT_OPTIONS } from '../../constants/sortOptions.js';
 import { USER_FORMS } from '../../constants/userForms.js';
-import { FILTER_ACTIONS } from '../../constants/filtersActions';
+import {
+	onlyActiveChanged,
+	searchChanged,
+	sortByChanged,
+} from '../../lib/actions/filtersActionsBuilders';
 
 const UserListFilters = ({ search, onlyActive, sortBy, dispatchFilters }) => {
 	const { currentForm, setCreateForm } = useContext(UserFormsContext);
@@ -21,19 +25,13 @@ const UserListFilters = ({ search, onlyActive, sortBy, dispatchFilters }) => {
 					autoComplete="off"
 					value={search}
 					onChange={(e) => {
-						dispatchFilters({
-							type: FILTER_ACTIONS.SEARCH,
-							value: e.target.value,
-						});
+						dispatchFilters(searchChanged(e.target.value));
 					}}
 				/>
 				<SelectInput
 					value={sortBy}
 					onChange={(e) => {
-						dispatchFilters({
-							type: FILTER_ACTIONS.SORT_BY,
-							value: Number(e.target.value),
-						});
+						dispatchFilters(sortByChanged(Number(e.target.value)));
 					}}
 				>
 					<option value={SORT_OPTIONS.DEFAULT}>Por defecto</option>
@@ -50,10 +48,7 @@ const UserListFilters = ({ search, onlyActive, sortBy, dispatchFilters }) => {
 						className={style.checkbox}
 						checked={onlyActive}
 						onChange={(e) =>
-							dispatchFilters({
-								type: FILTER_ACTIONS.ONLY_ACTIVE,
-								value: e.target.checked,
-							})
+							dispatchFilters(onlyActiveChanged(e.target.checked))
 						}
 					/>
 					<span>Mostrar sólo activos</span>

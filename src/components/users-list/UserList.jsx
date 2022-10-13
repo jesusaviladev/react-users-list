@@ -8,7 +8,7 @@ import useUsers from '../../lib/hooks/useUsers.js';
 import style from './UserList.module.css';
 import UserFormsProvider from '../providers/UserFormsProvider.jsx';
 import { USER_VIEW_OPTIONS } from '../../constants/userViewOptions.js';
-import { FILTER_ACTIONS } from '../../constants/filtersActions.js';
+import { reset } from '../../lib/actions/filtersActionsBuilders.js';
 import {
 	filtersReducer,
 	FILTERS_INITIAL_STATE,
@@ -29,9 +29,7 @@ const UserList = () => {
 	return (
 		<div className={style.list}>
 			<h1 className={style.title}>Listado de Usuarios</h1>
-			<UserFormsProvider
-				resetFilters={() => dispatchFilters({ type: FILTER_ACTIONS.RESET })}
-			>
+			<UserFormsProvider resetFilters={() => dispatchFilters(reset())}>
 				<UserListFilters
 					search={filters.search}
 					onlyActive={filters.onlyActive}

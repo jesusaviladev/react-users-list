@@ -9,7 +9,12 @@ import { USER_ROLES } from '../../constants/userRoles.js';
 import { UserFormsContext } from '../../lib/context/UserFormsContext.js';
 import useEditForm from '../../lib/hooks/useEditForm.js';
 import { updateUser } from '../../lib/services/users.services.js';
-import { EDIT_FORM_ACTIONS } from '../../constants/editFormActions';
+import {
+	activeChanged,
+	nameChanged,
+	roleChanged,
+	usernameChanged,
+} from '../../lib/actions/editFormActionsBuilders';
 
 const UserEditForm = () => {
 	const { currentUser, onSuccess } = useContext(UserFormsContext);
@@ -42,12 +47,7 @@ const UserEditForm = () => {
 					label="Nombre"
 					placeholder="John Doe..."
 					value={name.value}
-					onChange={(e) =>
-						dispatchFormValues({
-							type: EDIT_FORM_ACTIONS.NAME,
-							value: e.target.value,
-						})
-					}
+					onChange={(e) => dispatchFormValues(nameChanged(e.target.value))}
 					error={name.error}
 				/>
 				<InputTextAsync
@@ -56,11 +56,9 @@ const UserEditForm = () => {
 					placeholder="johndoe..."
 					value={username.value}
 					onChange={(e) =>
-						dispatchFormValues({
-							type: EDIT_FORM_ACTIONS.USERNAME,
-							value: e.target.value,
-							currentUsername: currentUser.username,
-						})
+						dispatchFormValues(
+							usernameChanged(e.target.value, currentUser.username)
+						)
 					}
 					loading={username.loading}
 					error={username.error}
@@ -74,12 +72,7 @@ const UserEditForm = () => {
 			<div className={style.row}>
 				<SelectInput
 					value={role}
-					onChange={(e) =>
-						dispatchFormValues({
-							type: EDIT_FORM_ACTIONS.ROLE,
-							value: e.target.value,
-						})
-					}
+					onChange={(e) => dispatchFormValues(roleChanged(e.target.value))}
 				>
 					<option value={USER_ROLES.TEACHER}>Profesor</option>
 					<option value={USER_ROLES.STUDENT}>Alumno</option>
@@ -89,10 +82,7 @@ const UserEditForm = () => {
 					<InputCheckbox
 						checked={active}
 						onChange={(e) =>
-							dispatchFormValues({
-								type: EDIT_FORM_ACTIONS.ACTIVE,
-								value: e.target.checked,
-							})
+							dispatchFormValues(activeChanged(e.target.checked))
 						}
 					/>
 					<span>¿Activo?</span>

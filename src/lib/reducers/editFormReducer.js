@@ -17,26 +17,25 @@ export const getEditFormInitialState = (user) => {
 	};
 };
 
-export const editFormReducer = (state, action) => {
-	switch (action.type) {
+export const editFormReducer = (state, { type, payload }) => {
+	switch (type) {
 		case EDIT_FORM_ACTIONS.NAME: {
-			const error = validateName(action.value);
+			const error = validateName(payload);
 
 			return {
 				...state,
-				name: { value: action.value, error },
+				name: { value: payload, error },
 			};
 		}
 
 		case EDIT_FORM_ACTIONS.USERNAME: {
-			const error = validateUsername(action.value);
-			const isInitial = action.value === action.currentUsername;
+			const error = validateUsername(payload.username);
 
 			return {
 				...state,
 				username: {
-					value: action.value,
-					loading: !error && !isInitial,
+					value: payload.username,
+					loading: !error && !payload.isInitial,
 					error,
 				},
 			}; // loading depende de si no está cargando
@@ -45,25 +44,25 @@ export const editFormReducer = (state, action) => {
 		case EDIT_FORM_ACTIONS.ROLE:
 			return {
 				...state,
-				role: action.value,
+				role: payload,
 			};
 
 		case EDIT_FORM_ACTIONS.ACTIVE:
 			return {
 				...state,
-				active: action.value,
+				active: payload,
 			};
 		case EDIT_FORM_ACTIONS.USERNAME_ERROR:
 			return {
 				...state,
 				username: {
 					value: state.username.value,
-					error: action.value,
+					error: payload,
 					loading: false,
 				},
 			};
 		case EDIT_FORM_ACTIONS.REPLACE: {
-			return action.value;
+			return payload;
 		}
 
 		default:

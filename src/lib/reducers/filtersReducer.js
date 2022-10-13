@@ -10,11 +10,11 @@ export const FILTERS_INITIAL_STATE = {
 	itemsPerPage: PAGINATION.DEFAULT_PAGE_SIZE,
 };
 
-export const filtersReducer = (state, action) => {
-	switch (action.type) {
+export const filtersReducer = (state, { type, payload }) => {
+	switch (type) {
 		case FILTER_ACTIONS.SEARCH:
 			// Siempre que filtro por busqueda o solo activo, vuelvo a la pagina 1
-			return { ...state, search: action.value, page: PAGINATION.DEFAULT_PAGE };
+			return { ...state, search: payload, page: PAGINATION.DEFAULT_PAGE };
 
 		case FILTER_ACTIONS.ONLY_ACTIVE:
 			/* Requerimiento funcional: 
@@ -29,18 +29,18 @@ export const filtersReducer = (state, action) => {
 			return {
 				...state,
 				sortBy:
-					action.value && state.sortBy === SORT_OPTIONS.ACTIVE
+					payload && state.sortBy === SORT_OPTIONS.ACTIVE
 						? SORT_OPTIONS.DEFAULT
 						: state.sortBy,
-				onlyActive: action.value,
+				onlyActive: payload,
 				page: PAGINATION.DEFAULT_PAGE,
 			};
 
 		case FILTER_ACTIONS.SORT_BY:
-			return { ...state, sortBy: action.value, page: PAGINATION.DEFAULT_PAGE };
+			return { ...state, sortBy: payload, page: PAGINATION.DEFAULT_PAGE };
 
 		case FILTER_ACTIONS.PAGE:
-			return { ...state, page: action.value };
+			return { ...state, page: payload };
 
 		case FILTER_ACTIONS.ITEMS_PER_PAGE:
 			/* Al setear el numero de items por pagina es necesario reiniciar la
@@ -48,7 +48,7 @@ export const filtersReducer = (state, action) => {
 
 			return {
 				...state,
-				itemsPerPage: action.value,
+				itemsPerPage: payload,
 				page: PAGINATION.DEFAULT_PAGE,
 			};
 
