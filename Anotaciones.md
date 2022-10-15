@@ -38,3 +38,6 @@
 30. No mentir con las dependencias, cuando algo pueda cambiar en un estado debe ser parte del array, las funciones que se declaran en el render también cambian.
 31. La función cleanup de useEffect se utiliza para limpiar los side effects, se ejecuta antes de ejecutar el useEffect.
 32. El render NUNCA puede ser una ejecución asíncrona
+33. Las referencias (useRef) se deben modificar después del renderizado, preferiblemente en un event handler o en un useEffect
+34. Nunca utilizar una referencia para modificar un nodo del DOM (acciones no destructivas, como focus, scroll, etc).
+35. El render nunca puede depende de una referencia (solo de props o estados).
