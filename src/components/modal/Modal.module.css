@@ -1,0 +1,29 @@
+.overlay {
+	position: fixed;
+	inset: 0; /* top, left, right y bottom 0 */
+
+	width: 100vw;
+	height: 100vh;
+
+	background-color: var(--color-overlay);
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.modal {
+	width: 20rem;
+	background-color: var(--color-white);
+	border-radius: var(--radius-md);
+
+	padding: 1.5rem;
+
+	position: relative;
+}
+
+.close {
+	position: absolute;
+	top: -1.25rem;
+	right: -1.25rem;
+}
