@@ -1,12 +1,12 @@
 import style from './UserListFilters.module.css';
-import { useContext } from 'react';
-import { UserFormsContext } from '../../lib/context/UserFormsContext.js';
+import { useState } from 'react';
 import InputSearch from '../forms/InputSearch.jsx';
 import InputCheckbox from '../forms/InputCheckbox.jsx';
 import SelectInput from '../forms/SelectInput.jsx';
+import Modal from '../modal/Modal.jsx';
 import Button from '../buttons/Button.jsx';
+import UserCreateForm from '../user-forms/UserCreateForm.jsx';
 import { SORT_OPTIONS } from '../../constants/sortOptions.js';
-import { USER_FORMS } from '../../constants/userForms.js';
 import {
 	onlyActiveChanged,
 	searchChanged,
@@ -14,11 +14,15 @@ import {
 } from '../../lib/actions/filtersActionsBuilders';
 
 const UserListFilters = ({ search, onlyActive, sortBy, dispatchFilters }) => {
-	const { currentForm, setCreateForm } = useContext(UserFormsContext);
+	const [showModal, setShowModal] = useState(false);
 
-	if (currentForm !== USER_FORMS.FILTERS) return null;
 	return (
 		<div className={style.form}>
+			<Modal closeModal={() => setShowModal(!showModal)}>
+				{showModal && (
+					<UserCreateForm closeModal={() => setShowModal(!showModal)} />
+				)}
+			</Modal>
 			<div className={style.row}>
 				<InputSearch // Componente al que le pasamos las props destructuradas
 					placeholder="Buscar..."
@@ -53,7 +57,7 @@ const UserListFilters = ({ search, onlyActive, sortBy, dispatchFilters }) => {
 					/>
 					<span>Mostrar sólo activos</span>
 				</div>
-				<Button onClick={setCreateForm}>Añadir usuario</Button>
+				<Button onClick={() => setShowModal(!showModal)}>Añadir usuario</Button>
 			</div>
 		</div>
 	);

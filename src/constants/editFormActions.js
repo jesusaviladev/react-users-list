@@ -4,5 +4,4 @@ export const EDIT_FORM_ACTIONS = {
 	ROLE: 'role_changed',
 	ACTIVE: 'active_changed',
 	USERNAME_ERROR: 'username_error_changed',
-	REPLACE: 'replace',
 };

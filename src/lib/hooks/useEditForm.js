@@ -4,10 +4,7 @@ import {
 	editFormReducer,
 	getEditFormInitialState,
 } from '../reducers/editFormReducer.js';
-import {
-	usernameErrorChanged,
-	replace,
-} from '../actions/editFormActionsBuilders.js';
+import { usernameErrorChanged } from '../actions/editFormActionsBuilders.js';
 
 // EL ORDEN DE PRESENTACION DE LOS HOOKS IMPORTA!!!
 
@@ -27,10 +24,6 @@ const useEditForm = (user) => {
 	);
 
 	// Cada vez que cambie el usuario, reiniciamos el estado
-
-	useEffect(() => {
-		dispatchFormValues(replace(getEditFormInitialState(user)));
-	}, [user]);
 
 	// UseEffect que llama a la API si hay un nombre de usuario válido
 	// Depende de la variable loading
