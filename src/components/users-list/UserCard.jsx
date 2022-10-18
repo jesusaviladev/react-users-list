@@ -9,7 +9,11 @@ const UserCard = ({ user }) => {
 		<div className={style.wrapper}>
 			<div className={style.card}>
 				<div className={style.name}>
-					<UserDisplay username={user.username} name={user.name} />
+					<UserDisplay
+						username={user.username}
+						name={user.name}
+						picture={user.picture}
+					/>
 				</div>
 				<div className={style.info}>
 					<UserRole role={user.role} />

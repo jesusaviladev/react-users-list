@@ -1,11 +1,23 @@
 .wrapper {
 	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.picture {
+	width: 3rem;
+	height: 3rem;
+
+	border-radius: 50%;
+}
+
+.display {
+	display: flex;
 	flex-direction: column;
+	gap: 0.25rem;
 }
 
 .username {
 	color: var(--color-gray);
 	font-size: var(--text-sm);
-
-	margin-top: 0.25rem;
 }
