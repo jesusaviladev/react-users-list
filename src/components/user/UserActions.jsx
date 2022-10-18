@@ -3,40 +3,64 @@ import Modal from '../modal/Modal.jsx';
 import IconButton from '../buttons/IconButton.jsx';
 import PencilIcon from '../icons/PencilIcon.jsx';
 import TrashIcon from '../icons/TrashIcon.jsx';
+import DotsIcon from '../icons/DotsIcon.jsx';
 import UserEditForm from '../user-forms/UserEditForm.jsx';
 import UserDeleteForm from '../user-forms/UserDeleteForm.jsx';
+import useDropdown from '../../lib/hooks/useDropdown.js';
+import style from './UserActions.module.css';
 
 const UserActions = ({ user }) => {
-	const [modalContent, setModalContent] = useState();
+	const { modalContent, closeModal, openEditModal, openDeleteModal } =
+		useModal(user);
+
+	const { dropdownOpened, dropdownRef, openDropdown, closeDropdown } =
+		useDropdown();
 
 	return (
-		<>
-			<Modal closeModal={() => setModalContent()}>{modalContent}</Modal>
-			<IconButton
-				icon={PencilIcon}
-				onClick={() =>
-					setModalContent(
-						<UserEditForm
-							currentUser={user}
-							closeModal={() => setModalContent()}
-						/>
-					)
-				}
-			/>
-			<IconButton
-				icon={TrashIcon}
-				kind="red"
-				onClick={() =>
-					setModalContent(
-						<UserDeleteForm
-							currentUser={user}
-							closeModal={() => setModalContent()}
-						/>
-					)
-				}
-			/>
-		</>
+		<div className={style.wrapper}>
+			<Modal closeModal={closeModal}>{modalContent}</Modal>
+			<IconButton icon={DotsIcon} onClick={openDropdown} />
+			{dropdownOpened && (
+				<ul
+					className={style.dropdown}
+					onClick={closeDropdown}
+					ref={dropdownRef}
+				>
+					<li className={style.dropdownElement} onClick={openEditModal}>
+						<PencilIcon className={style.icon} />
+						<span>Editar</span>
+					</li>
+					<li className={style.dropdownElement} onClick={openDeleteModal}>
+						<TrashIcon className={style.icon} />
+						<span>Eliminar</span>
+					</li>
+				</ul>
+			)}
+		</div>
 	);
+};
+
+const useModal = (user) => {
+	const [modalContent, setModalContent] = useState();
+
+	const closeModal = () => setModalContent();
+
+	const openEditModal = () =>
+		setModalContent(
+			<UserEditForm currentUser={user} closeModal={closeModal} />
+		);
+
+	const openDeleteModal = () =>
+		setModalContent(
+			<UserDeleteForm currentUser={user} closeModal={closeModal} />
+		);
+
+	return {
+		modalContent,
+		closeModal,
+		openEditModal,
+		openDeleteModal,
+	};
 };
 
 export default UserActions;

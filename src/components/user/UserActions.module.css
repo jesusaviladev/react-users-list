@@ -1,0 +1,41 @@
+.wrapper {
+	position: relative;
+}
+
+.dropdown {
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 100;
+
+	list-style: none;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-left: 0;
+
+	background-color: var(--color-white);
+	box-shadow: var(--shadow-sm);
+	border-radius: var(--radius-md);
+	font-size: var(--text-sm);
+
+	width: 11rem;
+
+	overflow: hidden;
+}
+
+.dropdownElement {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+
+	padding: 1rem 1.25rem;
+	cursor: pointer;
+}
+
+.dropdownElement:hover {
+	background-color: var(--color-lightgray);
+}
+
+.icon {
+	height: 1.25rem;
+}

@@ -1,11 +1,18 @@
 {
   "users": [
     {
-      "id": "1a751902-cad9-420b-bffa-a664b2616bf7",
-      "username": "arizzil1",
-      "name": "Alikee Rizzi Pepe",
+      "id": "c3ce080a-88ee-4b1c-b88e-e7070b1365e6",
+      "username": "bfarge0",
+      "name": "Bird Farge",
       "active": true,
-      "role": "teacher"
+      "role": "student"
+    },
+    {
+      "id": "1a751902-cad9-420b-bffa-a664b2616bf7",
+      "username": "arizzi1",
+      "name": "Alikee Rizzi",
+      "active": true,
+      "role": "other"
     },
     {
       "id": "d4150eee-37d8-4a18-8e9d-fd9837b65fbe",
@@ -25,7 +32,7 @@
       "id": "43f4fc35-387e-4cbe-a5b6-86c12acd74cb",
       "username": "dtrounce4",
       "name": "Doreen Trounce",
-      "active": false,
+      "active": true,
       "role": "other"
     },
     {
@@ -81,7 +88,7 @@
       "id": "7c210ce8-d4dd-40c7-a3bf-06bbf02ecb40",
       "username": "nruselinc",
       "name": "Nick Ruselin",
-      "active": true,
+      "active": false,
       "role": "student"
     },
     {
@@ -162,38 +169,17 @@
       "role": "student"
     },
     {
-      "id": "2e7032d9-e381-47c1-b798-169634d9e006",
+      "id": "2120c8da-e34b-41c9-972f-43f38e9aec9e",
       "name": "Pablo Castellanos",
-      "username": "pabloc82",
+      "username": "pablocd",
       "role": "teacher",
       "active": true
     },
     {
-      "id": "c326b97e-3f77-4970-a9e7-75f1c4b719f0",
-      "name": "José Miguel Fernández",
-      "username": "josemi22",
-      "role": "teacher",
-      "active": true
-    },
-    {
-      "id": "5155ceb1-b453-47e7-a940-57c4fc4b7945",
+      "id": "1c62dc1f-c897-44bb-848c-e6f91f8813b3",
       "name": "Jesús Ávila",
       "username": "jesusaviladev",
       "role": "student",
-      "active": true
-    },
-    {
-      "id": "f1731d3c-9a8e-4185-9321-23e39c20bf37",
-      "name": "Jose",
-      "username": "josyt0",
-      "role": "teacher",
-      "active": false
-    },
-    {
-      "id": "ac401633-3fad-49ef-9b11-e00dfbb166a8",
-      "name": "johndie",
-      "username": "johnny",
-      "role": "other",
       "active": true
     }
   ]

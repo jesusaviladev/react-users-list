@@ -1,7 +1,7 @@
 import UserStatus from '../user/UserStatus.jsx';
+import UserActions from '../user/UserActions.jsx';
 import UserRole from '../user/UserRole.jsx';
 import UserDisplay from '../user/UserDisplay.jsx';
-import UserActions from '../user/UserActions.jsx';
 import style from './UserRow.module.css';
 
 const UserRow = ({ user }) => {
