@@ -5,6 +5,7 @@ import InputTextAsync from '../forms/InputTextAsync.jsx';
 import SelectInput from '../forms/SelectInput.jsx';
 import InputCheckbox from '../forms/InputCheckbox.jsx';
 import Button from '../buttons/Button.jsx';
+import { alertBox } from '../../lib/events/alertEvents.js';
 import { USER_ROLES } from '../../constants/userRoles.js';
 import { UserFormsContext } from '../../lib/context/UserFormsContext.js';
 import useEditForm from '../../lib/hooks/useEditForm.js';
@@ -114,10 +115,11 @@ const handleSubmit = async (
 
 	if (success) {
 		onSuccess();
-		closeModal();
+		alertBox.success('Usuario modificado con éxito');
 	} else {
-		setIsSubmitting(false);
+		alertBox.error('Error al modificar al usuario');
 	}
+	closeModal();
 };
 
 export default UserEditForm;

@@ -2,6 +2,7 @@ import { useState, useContext, useRef } from 'react';
 import { UserFormsContext } from '../../lib/context/UserFormsContext.js';
 import { fileToDataURL } from '../../lib/utils/file-utils.js';
 import { updateUserPic } from '../../lib/services/users.services.js';
+import { alertBox } from '../../lib/events/alertEvents.js';
 import Button from '../buttons/Button.jsx';
 import IconButton from '../buttons/IconButton.jsx';
 import PictureIcon from '../icons/PictureIcon.jsx';
@@ -124,10 +125,11 @@ const handleClick = async (
 
 	if (success) {
 		onSuccess();
-		closeModal();
+		alertBox.success('Imagen modificada con éxito');
 	} else {
-		setIsSubmitting(false);
+		alertBox.error('Error al modificar la imagen');
 	}
+	closeModal();
 };
 
 export default UserPicForm;

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { alertBox } from '../events/alertEvents.js';
 import { findAllUsers } from '../services/users.services.js';
 
 const useUsers = (filters) => {
@@ -48,7 +49,10 @@ const loadUsers = async (setData, setError, signal, filters) => {
 	if (aborted) return;
 
 	if (users) setData(users, count);
-	else setError();
+	else {
+		setError();
+		alertBox.error('Error al cargar usuarios');
+	}
 };
 
 export default useUsers;

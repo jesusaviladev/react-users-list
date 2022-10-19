@@ -5,8 +5,9 @@ import UserListPagination from './UsersListPagination.jsx';
 import UsersListViewSelector from './UsersListViewSelector.jsx';
 import UsersListRows from './UsersListRows.jsx';
 import useUsers from '../../lib/hooks/useUsers.js';
-import style from './UserList.module.css';
+import AlertBox from '../alerts/AlertBox.jsx';
 import { USER_VIEW_OPTIONS } from '../../constants/userViewOptions.js';
+import style from './UserList.module.css';
 import { reset } from '../../lib/actions/filtersActionsBuilders.js';
 import {
 	filtersReducer,
@@ -28,6 +29,7 @@ const UserList = () => {
 	return (
 		<div className={style.list}>
 			<h1 className={style.title}>Listado de Usuarios</h1>
+			<AlertBox />
 			<UserFormsContext.Provider
 				value={{ onSuccess: () => dispatchFilters(reset()) }}
 			>

@@ -6,6 +6,7 @@ import SelectInput from '../forms/SelectInput.jsx';
 import InputCheckbox from '../forms/InputCheckbox.jsx';
 import Button from '../buttons/Button.jsx';
 import { USER_ROLES } from '../../constants/userRoles.js';
+import { alertBox } from '../../lib/events/alertEvents.js';
 import useCreateForm from '../../lib/hooks/useCreateForm.js';
 import { UserFormsContext } from '../../lib/context/UserFormsContext.js';
 import { createUser } from '../../lib/services/users.services.js';
@@ -84,10 +85,11 @@ const handleSubmit = async (
 	if (success) {
 		// TODO : Actualizar los usuarios
 		onSuccess();
-		closeModal();
+		alertBox.success('Usuario creado exitosamente');
 	} else {
-		setIsSubmitting(false);
+		alertBox.error('Error al crear usuario');
 	}
+	closeModal();
 };
 
 export default UserCreateForm;
