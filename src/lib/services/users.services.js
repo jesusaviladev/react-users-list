@@ -39,6 +39,30 @@ export const updateUser = async (user) => {
 	}
 };
 
+/**
+ * Actualiza la foto de perfil del usuario en la API
+ * @userId {string} El id del usuario
+ * @picture {string} URL en base64 de la imagen
+ */
+
+export const updateUserPic = async (userId, picture) => {
+	try {
+		const res = await fetch(`http://localhost:4000/users/${userId}`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				picture,
+			}),
+		});
+
+		return res.ok;
+	} catch (error) {
+		return false;
+	}
+};
+
 export const deleteUserById = async (userId) => {
 	try {
 		const res = await fetch(`http://localhost:4000/users/${userId}`, {
